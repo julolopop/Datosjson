@@ -30,7 +30,7 @@ import cz.msebera.android.httpclient.Header;
 
 public class Primitiva extends AppCompatActivity implements View.OnClickListener {
     public static final String TAG = "MyTag";
-    private String uri = "http://alumno.mobi/~alumno/superior/diaz/primitiva.json";
+    private String uri = "http://alumno.mobi/superior/diaz/primitiva.json";
 
     Button mButton;
     TextView mTextView;
