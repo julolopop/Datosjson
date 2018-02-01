@@ -32,11 +32,10 @@ import cz.msebera.android.httpclient.Header;
 
 public class ListaContactosGSON extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
 
-    public static final String WEB = "http://192.168.1.20/acceso/contacts.json";
-    //public static final String WEB = "https://www.portadaalta.mobi/acceso/contacts.json";
+    //public static final String WEB = "http://192.168.1.20/acceso/contacts.json";
+    public static final String WEB = "https://portadaalta.mobi/acceso/contacts.json";
     Button boton;
     ListView lista;
-    ArrayList<Contact> contacts;
     ArrayAdapter<Contact> adapter;
     Persona person;
     Gson gson;
@@ -49,7 +48,6 @@ public class ListaContactosGSON extends AppCompatActivity implements View.OnClic
         boton.setOnClickListener(this);
         lista = (ListView) findViewById(android.R.id.list);
         lista.setOnItemClickListener(this);
-        contacts = new ArrayList<Contact>();
     }
 
     @Override
@@ -83,21 +81,19 @@ public class ListaContactosGSON extends AppCompatActivity implements View.OnClic
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 progreso.dismiss();
-                Toast.makeText(ListaContactosGSON.this, errorResponse.toString(),Toast.LENGTH_LONG).show();
+                Toast.makeText(ListaContactosGSON.this, String.valueOf(errorResponse),Toast.LENGTH_LONG).show();
             }
         });
     }
 
     private void mostrar() {
         if (person != null) {
-            contacts.clear();
-            contacts.addAll(person.getContacts());
             if (adapter == null) {
-                adapter = new ArrayAdapter<Contact>(this, android.R.layout.simple_list_item_1, contacts);
+                adapter = new ArrayAdapter<Contact>(this, android.R.layout.simple_list_item_1, person.getContacts());
                 lista.setAdapter(adapter);
             } else {
                 adapter.clear();
-                adapter.addAll(contacts);
+                adapter.addAll(person.getContacts());
             }
         } else
             Toast.makeText(getApplicationContext(), "Error al crear la lista", Toast.LENGTH_SHORT).show();
@@ -105,7 +101,7 @@ public class ListaContactosGSON extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Toast.makeText(this, "Móvil: " + contacts.get(position).getPhone().getMobile(),
+        Toast.makeText(this, "Móvil: " + person.getContacts().get(position).getPhone().getMobile(),
                 Toast.LENGTH_SHORT).show();
     }
 }
