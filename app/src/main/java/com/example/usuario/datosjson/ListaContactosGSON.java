@@ -22,9 +22,11 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.SocketAddress;
 import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
+import okhttp3.Address;
 
 /**
  * Created by usuario on 23/01/18.
@@ -66,6 +68,8 @@ public class ListaContactosGSON extends AppCompatActivity implements View.OnClic
                 progreso.setMessage("Conectando . . .");
                 progreso.setCancelable(true);
                 progreso.show();
+
+
             }
 
             @Override
@@ -81,7 +85,12 @@ public class ListaContactosGSON extends AppCompatActivity implements View.OnClic
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 progreso.dismiss();
-                Toast.makeText(ListaContactosGSON.this, String.valueOf(errorResponse),Toast.LENGTH_LONG).show();
+
+
+                if(throwable != null)
+                    Toast.makeText(ListaContactosGSON.this, throwable.getMessage(),Toast.LENGTH_LONG).show();
+                if(errorResponse != null)
+                    Toast.makeText(ListaContactosGSON.this, String.valueOf(errorResponse),Toast.LENGTH_LONG).show();
             }
         });
     }
